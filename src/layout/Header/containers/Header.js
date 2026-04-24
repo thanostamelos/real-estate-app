@@ -1,4 +1,4 @@
-import {AppBar, Autocomplete, Box, Grid, IconButton, TextField, Toolbar, useMediaQuery} from "@mui/material";
+import {AppBar, Box, IconButton, Toolbar, useMediaQuery} from "@mui/material";
 import React, {Suspense, useEffect, useRef, useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {useDispatch, useSelector} from "react-redux";
@@ -6,15 +6,17 @@ import {selectIsOpen} from "../../selectors/selectors";
 import {useTheme} from "@mui/material/styles";
 import LogoSection from "../components/LogoSection";
 import ThemeMode from "../components/ThemeMode";
-import PersonalSection from "../components/PersonalSection";
-import {IconCategory} from "@tabler/icons-react";
+import {IconCategory, IconUser} from "@tabler/icons-react";
 import ProfileSectionPopperMenu from "../components/ProfileSectionPopperMenu";
+import SearchBar from "../components/SearchBar";
+import AuthPopperMenu from "../components/AuthPopperMenu";
 
 const Header = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const open = useSelector(selectIsOpen);
     const [isOpen, setIsOpen] = useState(false);
+    const [authPopper, setAuthPopper] = useState(false);
 
     const prevOpen = useRef(open);
 
@@ -57,54 +59,7 @@ const Header = () => {
                 )}
 
                 <Box sx={{flex: 1}}/>
-
-                <Grid size={{md: 12, lg: 6}}>
-                    <Autocomplete
-                        limitTags={1}
-                        id={`id-search`}
-                        multiple={false}
-                        options={[]}
-                        size="small"
-                        freeSolo
-                        autoSelect
-                        value={null}
-                        onChange={(e, v) => {
-                        }}
-                        name={'search'}
-                        width={500}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                fullWidth
-                                variant={'outlined'}
-                                label={'Search'}
-                                size="small"
-                                sx={{
-                                    minWidth: 500,
-                                    width: 500,
-                                    '& .MuiInputBase-root': {
-                                        minHeight: 40,
-                                        maxHeight: 40,
-                                        fontSize: '13px',
-                                        overflow: 'hidden',
-                                        paddingRight: '60px !important'
-                                    },
-                                    '& .MuiOutlinedInput-input': {
-                                        padding: '4px 8px'
-                                    },
-                                    '& .MuiInputBase-root:focus-within': {
-                                        minHeight: 40,
-                                        maxHeight: 'none'
-                                    },
-                                    marginTop: '1px',
-                                }}
-                                InputProps={{
-                                    ...params.InputProps,
-                                }}
-                            />
-                        )}
-                    />
-                </Grid>
+                <SearchBar/>
 
                 <Box sx={{flex: 1}}/>
 
@@ -123,7 +78,17 @@ const Header = () => {
 
                 <ThemeMode/>
 
-                <PersonalSection/>
+                <IconButton
+                    ref={anchorRef}
+                    onClick={() => setAuthPopper(true)}
+                    aria-label="open drawer"
+                >
+                    <IconUser fontSize={35}/>
+                </IconButton>
+
+                <Suspense fallback={null}>
+                    <AuthPopperMenu open={authPopper} setOpen={setAuthPopper} anchorRef={anchorRef}/>
+                </Suspense>
             </Toolbar>
         </AppBar>
     )

@@ -4,7 +4,6 @@ import SimpleTextFilter from "../../../../utils/filters/SimpleTextField";
 import EndAdornment from "./EndAdornment";
 import SimpleDateFilter from "../../../../utils/filters/SimpleDateFilter";
 import {useDispatch} from "react-redux";
-import {asyncCreateAccount} from "../../../../store/slices/data_auth";
 import * as yup from 'yup';
 import {useFormik} from "formik";
 import {FIELD_STYLES} from "../../helper/helper";
@@ -35,7 +34,6 @@ const AuthCreateAccount = () => {
         validationSchema,
         onSubmit: async (values) => {
             try {
-                await dispatch(asyncCreateAccount(values)).unwrap();
                 navigate('/login', {replace: true});
             } catch (e) {
 

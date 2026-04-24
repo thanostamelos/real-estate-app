@@ -2,7 +2,6 @@ import {GoogleLogin} from "@react-oauth/google";
 import React, {useState} from "react";
 import {Typography} from "@mui/material";
 import {useDispatch} from "react-redux";
-import {asyncLoginWithGoogle} from "../../../../store/slices/data_auth";
 
 const AuthLoginGoogle = () => {
     const dispatch = useDispatch();
@@ -13,9 +12,6 @@ const AuthLoginGoogle = () => {
         try {
             const idToken = credentialResponse.credential;
             setError(false);
-            if (idToken) {
-                dispatch(asyncLoginWithGoogle(idToken));
-            }
         } catch (e) {
             setError(true);
         }

@@ -1,7 +1,7 @@
-import {memo, useCallback, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {useTheme} from '@mui/material/styles';
 import {Box, ClickAwayListener, Divider, List, Paper, Popper} from '@mui/material';
-import {IconHelp, IconSearch, IconUpload} from '@tabler/icons-react';
+import {IconLogin, IconLogout} from '@tabler/icons-react';
 import PopperListItem from "./PopperListItem";
 import MainCard from "../../../utils/general/MainCard";
 
@@ -14,11 +14,10 @@ const popperModifiers = [
     }
 ];
 
-const SearchIcon = <IconSearch/>;
-const UploadIcon = <IconUpload/>;
-const HelpIcon = <IconHelp/>;
+const LoginIcon = <IconLogin/>;
+const LogoutIcon = <IconLogout/>;
 
-const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
+const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
     const theme = useTheme();
 
     const listStyles = useMemo(
@@ -53,12 +52,13 @@ const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
         [anchorRef, setOpen]
     );
 
-    const handleSettingsClick = useCallback(() => {
+    const handleLogIn = useCallback(() => {
         setOpen(false);
-    }, []);
+    }, [setOpen]);
 
-    const handlePrivacyNoticeClick = useCallback(() => {
-    }, []);
+    const handleLogout = useCallback(() => {
+        setOpen(false);
+    }, [setOpen]);
 
     return (
         <>
@@ -85,21 +85,15 @@ const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
                                 <Box sx={{p: 2, pt: 0}}>
                                     <List component="nav" sx={listStyles}>
                                         <PopperListItem
-                                            onClick={handleSettingsClick}
-                                            itemLabel={'Find House'}
-                                            icon={SearchIcon}
+                                            onClick={handleLogIn}
+                                            itemLabel={'Login'}
+                                            icon={LoginIcon}
                                         />
                                         <PopperListItem
-                                            onClick={handlePrivacyNoticeClick}
-                                            itemLabel={'Upload a Property'}
-                                            icon={UploadIcon}
+                                            onClick={handleLogout}
+                                            itemLabel={'Logout'}
+                                            icon={LogoutIcon}
                                         />
-                                        <PopperListItem
-                                            onClick={handlePrivacyNoticeClick}
-                                            itemLabel={'Help'}
-                                            icon={HelpIcon}
-                                        />
-                                        <Divider sx={{my: 1}}/>
                                     </List>
                                 </Box>
                             </MainCard>
@@ -109,6 +103,6 @@ const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
             </Popper>
         </>
     );
-};
+}
 
-export default memo(ProfileSectionPopperMenu);
+export default AuthPopperMenu
