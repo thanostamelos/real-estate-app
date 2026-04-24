@@ -4,9 +4,9 @@ export default function Rights() {
     return (
         <Box sx={{ml: 2}}>
             <footer className="app-footer">
-                <Tooltip title={'Athanasios Stamelos mpsp2548'}>
+                <Tooltip title={'PROTAL'}>
                     <div className="container py-3 small text-muted">
-                        © {new Date().getFullYear()} Cinema Booking
+                        © {new Date().getFullYear()} Real Estate Protal
                     </div>
                 </Tooltip>
             </footer>

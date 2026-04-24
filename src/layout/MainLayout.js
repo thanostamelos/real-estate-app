@@ -1,37 +1,35 @@
 import React from 'react';
 import {Box, CssBaseline,} from '@mui/material';
 import Header from "./Header/containers/Header";
-import MenuBar from "./MenuBar/containers/MenuBar";
-
+import Footer from "./Footer/containers/Footer";
 
 export default function MainLayout({children}) {
 
     return (
-        <Box sx={{display: 'flex', minHeight: '100vh', bgcolor: 'background.default'}}>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+                bgcolor: "background.default",
+            }}
+        >
             <CssBaseline/>
 
             <Header/>
 
-            {/* Drawer */}
-            <MenuBar/>
-
             {/* Main */}
             <Box
-                component="main"
                 sx={{
-                    flex: 1,
-                    p: {xs: 2, sm: 3},
-                    pt: {xs: 10, sm: 11},
-                    pb: {xs: 10, md: 3},
+                    flex: 1, // 🔥 αυτό κάνει το footer να πάει κάτω
+                    p: { xs: 2, sm: 3 },
+                    pt: { xs: 10, sm: 11 },
                 }}
             >
                 {children}
             </Box>
 
-            {/* Bottom Navigation (mobile) */}
-            {/*{!isDesktop && (*/}
-            {/*    <MenuBarMobile/>*/}
-            {/*)}*/}
+            <Footer/>
         </Box>
     );
 }
