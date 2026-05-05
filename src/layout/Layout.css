@@ -1,0 +1,14 @@
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-main {
+    flex: 1;
+}
+
+.app-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+}
