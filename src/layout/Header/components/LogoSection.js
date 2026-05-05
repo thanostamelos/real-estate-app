@@ -42,7 +42,7 @@ const LogoSection = () => {
             >
                 <Avatar
                     src="/real-estate.png"
-                    alt="Cinema App"
+                    alt="Real Estate App"
                     variant="rounded"
                     sx={{width: 70, height: 70, backgroundColor: 'transparent', zIndex: 1000}}
                 />
