@@ -45,17 +45,27 @@ export default function Home() {
                 backgroundColor: theme.palette.background.default,
                 color: theme.palette.text.primary,
 
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: 24,
-
-                justifyItems: "center",
-                alignItems: "start"
+                display: "flex",
+                justifyContent: "center"
             }}
         >
-            {filteredApartments.map((item, i) => (
-                <PostCard key={i} {...item} />
-            ))}
+            <div
+                style={{
+                    width: "100%",
+                    maxWidth: 1400,
+                    display: "grid",
+
+                    gridTemplateColumns:
+                        "repeat(auto-fit, minmax(280px, 1fr))",
+
+                    gap: 24,
+                    alignItems: "start"
+                }}
+            >
+                {filteredApartments.map((item, i) => (
+                    <PostCard key={i} {...item} />
+                ))}
+            </div>
         </div>
     );
 }
