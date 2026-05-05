@@ -1,15 +1,8 @@
 import {createSelector} from "reselect";
 
-const selectDataAuth = (state) => state.data_auth;
+const selectDataSearchbar = (state) => state.data_searchbar;
 
-export const selectAuthData = createSelector([selectDataAuth], (dataAuth) => dataAuth?.authData ?? null);
+export const selectSearchTerm = createSelector([selectDataSearchbar], (dataSearchbar) => dataSearchbar?.searchTerm ?? '');
 
-export const selectCreateAccountData = createSelector([selectDataAuth], (dataAuth) => dataAuth?.createResponse ?? null);
+export const selectLocation = createSelector([selectDataSearchbar], (dataSearchbar) => dataSearchbar?.location ?? '');
 
-
-// CALENDAR
-const selectDataCalendar = (state) => state.data_calendar;
-
-export const selectCalendarLoading = createSelector([selectDataCalendar], (dataCalendar) => dataCalendar?.listDataLoading ?? false);
-
-export const selectCalendar = createSelector([selectDataCalendar], (dataCalendar) => dataCalendar?.listData ?? []);

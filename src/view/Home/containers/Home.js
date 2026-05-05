@@ -1,59 +1,61 @@
-import React from 'react';
+import React, {useMemo} from "react";
+import PostCard from "../../PostCard/containers/PostCard";
 import {useTheme} from "@mui/material/styles";
+import {APARTMENTS} from "../helper/apartmentsList";
+import {useSelector} from "react-redux";
+import {selectLocation, selectSearchTerm} from "../selectors/HomeSelectors";
 
 export default function Home() {
     const theme = useTheme();
 
+    const searchTerm = useSelector(selectSearchTerm);
+    const location = useSelector(selectLocation);
+
+    const filteredApartments = useMemo(() => {
+        const term = searchTerm?.toLowerCase().trim();
+        const loc = location?.toLowerCase().trim();
+
+        return APARTMENTS.filter((item) => {
+            // 1. LOCATION FILTER (μόνο location field)
+            const matchesLocation = loc
+                ? item.location?.toLowerCase().includes(loc)
+                : true;
+
+            // 2. GLOBAL SEARCH (όλα τα fields)
+            const matchesSearch = term
+                ? Object.values(item).some((value) => {
+                    if (value === null || value === undefined) return false;
+
+                    return value
+                        .toString()
+                        .toLowerCase()
+                        .includes(term);
+                })
+                : true;
+
+            return matchesLocation && matchesSearch;
+        });
+    }, [searchTerm, location]);
+
     return (
-        <div style={{
-            minHeight: "auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: 40,
-            color: theme.palette.text.default,
-            backgroundColor: theme.palette.background.default,
-        }}>
-            <div style={{
-                background: theme.palette.mode === 'dark'
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.85)',
-                backdropFilter: "blur(12px)",
-                borderRadius: 20,
+        <div
+            style={{
+                minHeight: "100vh",
                 padding: 40,
-                width: "100%",
-                maxWidth: 700,
-                textAlign: "center",
-                boxShadow:
-                    theme.palette.mode === 'dark'
-                        ? '0 10px 30px rgba(0,0,0,0.45)'
-                        : '0 10px 30px rgba(15,23,42,0.10)',
-                border: `1px solid ${
-                    theme.palette.mode === 'dark'
-                        ? 'rgba(255,255,255,0.08)'
-                        : 'rgba(30,58,138,0.08)'
-                }`,
-                color: theme.palette.text.default,
-            }}>
+                backgroundColor: theme.palette.background.default,
+                color: theme.palette.text.primary,
 
-                <h1 style={{
-                    fontSize: 42,
-                    fontWeight: 700,
-                    marginBottom: 10,
-                    color: theme.palette.primary.main,
-                }}>
-                    Real Estate
-                </h1>
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                gap: 24,
 
-                <h2 style={{
-                    fontSize: 24,
-                    marginBottom: 30,
-                    opacity: 0.9,
-                    color: theme.palette.text.default,
-                }}>
-                    Welcome Guest
-                </h2>
-            </div>
+                justifyItems: "center",
+                alignItems: "start"
+            }}
+        >
+            {filteredApartments.map((item, i) => (
+                <PostCard key={i} {...item} />
+            ))}
         </div>
     );
 }
