@@ -44,7 +44,6 @@ export default function Home() {
                 padding: 40,
                 backgroundColor: theme.palette.background.default,
                 color: theme.palette.text.primary,
-
                 display: "flex",
                 justifyContent: "center"
             }}
@@ -54,10 +53,8 @@ export default function Home() {
                     width: "100%",
                     maxWidth: 1400,
                     display: "grid",
-
                     gridTemplateColumns:
                         "repeat(auto-fit, minmax(280px, 1fr))",
-
                     gap: 24,
                     alignItems: "start"
                 }}

@@ -21,9 +21,9 @@ export default function MainLayout({children}) {
             {/* Main */}
             <Box
                 sx={{
-                    flex: 1, // 🔥 αυτό κάνει το footer να πάει κάτω
-                    p: { xs: 2, sm: 3 },
-                    pt: { xs: 10, sm: 11 },
+                    flex: 1,
+                    p: {xs: 2, sm: 3},
+                    pt: {xs: 10, sm: 11},
                 }}
             >
                 {children}

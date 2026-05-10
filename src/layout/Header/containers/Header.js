@@ -1,5 +1,5 @@
 import {AppBar, Box, IconButton, Toolbar, useMediaQuery} from "@mui/material";
-import React, {Suspense, useEffect, useRef, useState} from "react";
+import React, {lazy, Suspense, useEffect, useRef, useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {useDispatch, useSelector} from "react-redux";
 import {selectIsOpen} from "../../selectors/selectors";
@@ -7,9 +7,10 @@ import {useTheme} from "@mui/material/styles";
 import LogoSection from "../components/LogoSection";
 import ThemeMode from "../components/ThemeMode";
 import {IconCategory, IconUser} from "@tabler/icons-react";
-import ProfileSectionPopperMenu from "../components/ProfileSectionPopperMenu";
 import SearchBar from "../components/SearchBar";
 import AuthPopperMenu from "../components/AuthPopperMenu";
+
+const ProfileSectionPopperMenu = lazy(() => import("../components/ProfileSectionPopperMenu"));
 
 const Header = () => {
     const theme = useTheme();
@@ -72,9 +73,11 @@ const Header = () => {
                     <IconCategory fontSize={35}/>
                 </IconButton>
 
-                <Suspense fallback={null}>
-                    <ProfileSectionPopperMenu open={isOpen} setOpen={setIsOpen} anchorRef={anchorRef}/>
-                </Suspense>
+                {isOpen &&
+                    <Suspense fallback={<></>}>
+                        <ProfileSectionPopperMenu open={isOpen} setOpen={setIsOpen} anchorRef={anchorRef}/>
+                    </Suspense>
+                }
 
                 <ThemeMode/>
 
@@ -86,9 +89,11 @@ const Header = () => {
                     <IconUser fontSize={35}/>
                 </IconButton>
 
-                <Suspense fallback={null}>
-                    <AuthPopperMenu open={authPopper} setOpen={setAuthPopper} anchorRef={anchorRef}/>
-                </Suspense>
+                {authPopper &&
+                    <Suspense fallback={<></>}>
+                        <AuthPopperMenu open={authPopper} setOpen={setAuthPopper} anchorRef={anchorRef}/>
+                    </Suspense>
+                }
             </Toolbar>
         </AppBar>
     )

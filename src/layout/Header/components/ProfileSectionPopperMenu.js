@@ -21,6 +21,8 @@ const HelpIcon = <IconHelp/>;
 const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
     const theme = useTheme();
 
+
+    console.log('Hello');
     const listStyles = useMemo(
         () => ({
             width: '100%',

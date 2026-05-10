@@ -20,4 +20,7 @@ const data_searchbar = createSlice({
 
 export default data_searchbar.reducer;
 
-export const {setSearchTerm, setLocationTerm} = data_searchbar.actions;
+export const {
+    setSearchTerm,
+    setLocationTerm
+} = data_searchbar.actions;
