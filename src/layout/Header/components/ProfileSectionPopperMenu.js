@@ -57,7 +57,7 @@ const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
 
     const handleSettingsClick = useCallback(() => {
         setOpen(false);
-    }, []);
+    }, [setOpen]);
 
     const handlePrivacyNoticeClick = useCallback(() => {
     }, []);
