@@ -1,8 +1,13 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+// Αντιστοιχεί στην κλάση SearchProperty του UML
 const initialState = {
     searchTerm: '',
-    location: ''
+    location: '',
+    propertyType: '',
+    status: '',
+    minPrice: '',
+    maxPrice: ''
 };
 
 const data_searchbar = createSlice({
@@ -14,6 +19,26 @@ const data_searchbar = createSlice({
         },
         setLocationTerm(state, action) {
             state.location = action.payload;
+        },
+        setPropertyType(state, action) {
+            state.propertyType = action.payload;
+        },
+        setStatus(state, action) {
+            state.status = action.payload;
+        },
+        setMinPrice(state, action) {
+            state.minPrice = action.payload;
+        },
+        setMaxPrice(state, action) {
+            state.maxPrice = action.payload;
+        },
+        resetFilter(state) {
+            state.searchTerm = '';
+            state.location = '';
+            state.propertyType = '';
+            state.status = '';
+            state.minPrice = '';
+            state.maxPrice = '';
         }
     }
 });
@@ -22,5 +47,10 @@ export default data_searchbar.reducer;
 
 export const {
     setSearchTerm,
-    setLocationTerm
+    setLocationTerm,
+    setPropertyType,
+    setStatus,
+    setMinPrice,
+    setMaxPrice,
+    resetFilter
 } = data_searchbar.actions;

@@ -1,115 +1,116 @@
-import {memo, useCallback, useMemo} from 'react';
+import {memo, useCallback} from 'react';
 import {useTheme} from '@mui/material/styles';
-import {Box, ClickAwayListener, Divider, List, Paper, Popper} from '@mui/material';
+import {Box, ClickAwayListener, Divider, Paper, Popper, Typography} from '@mui/material';
 import {IconHelp, IconSearch, IconUpload} from '@tabler/icons-react';
-import PopperListItem from "./PopperListItem";
-import MainCard from "../../../utils/general/MainCard";
+import {useNavigate} from 'react-router-dom';
 
 const popperModifiers = [
-    {
-        name: 'offset',
-        options: {
-            offset: [0, 8]
-        }
-    }
+    {name: 'offset', options: {offset: [0, 8]}}
 ];
 
-const SearchIcon = <IconSearch/>;
-const UploadIcon = <IconUpload/>;
-const HelpIcon = <IconHelp/>;
+const MenuItem = ({icon, label, description, onClick, color}) => {
+    const theme = useTheme();
+    return (
+        <Box
+            onClick={onClick}
+            sx={{
+                display: "flex", alignItems: "flex-start", gap: 1.5,
+                px: 1.5, py: 1.2, borderRadius: 2, cursor: "pointer",
+                transition: "background 0.15s",
+                "&:hover": {bgcolor: theme.palette.action.hover}
+            }}
+        >
+            <Box sx={{
+                mt: 0.3, p: 0.8, borderRadius: 1.5,
+                bgcolor: color ? `${color}18` : theme.palette.action.selected,
+                color: color ?? theme.palette.text.primary,
+                display: "flex"
+            }}>
+                {icon}
+            </Box>
+            <Box>
+                <Typography variant="body2" fontWeight={600}>{label}</Typography>
+                <Typography variant="caption" color="text.secondary">{description}</Typography>
+            </Box>
+        </Box>
+    );
+};
+
+const SectionLabel = ({label}) => (
+    <Typography variant="caption" color="text.disabled"
+        sx={{px: 1.5, pt: 1, pb: 0.5, display: "block", letterSpacing: 0.8, textTransform: "uppercase", fontWeight: 700}}>
+        {label}
+    </Typography>
+);
 
 const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
-
-    console.log('Hello');
-    const listStyles = useMemo(
-        () => ({
-            width: '100%',
-            maxWidth: 350,
-            minWidth: 300,
-            backgroundColor: theme.palette?.background?.default,
-            borderRadius: '10px',
-            [theme.breakpoints.down('md')]: {
-                minWidth: '100%'
-            },
-            '& .MuiListItemButton-root': {
-                mt: 0.5
-            }
-        }),
-        [theme.palette?.background?.default, theme.breakpoints]
-    );
-
-    const mainCardSx = useMemo(
-        () => ({backgroundColor: theme.palette?.background?.default}),
-        [theme.palette?.background?.default]
-    );
-
-    const handleClose = useCallback(
-        (event) => {
-            if (anchorRef.current && anchorRef.current.contains(event.target)) {
-                return;
-            }
-            setOpen(false);
-        },
-        [anchorRef, setOpen]
-    );
-
-    const handleSettingsClick = useCallback(() => {
+    const handleClose = useCallback((event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) return;
         setOpen(false);
-    }, []);
+    }, [anchorRef, setOpen]);
 
-    const handlePrivacyNoticeClick = useCallback(() => {
-    }, []);
+    const go = (path) => {
+        setOpen(false);
+        navigate(path);
+    };
 
     return (
-        <>
-            <Popper
-                placement="bottom-end"
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                disablePortal
-                modifiers={popperModifiers}
-                sx={{zIndex: (t) => t.zIndex.drawer + 2}}
-            >
-                <ClickAwayListener onClickAway={handleClose}>
-                    <Paper>
-                        {open && (
-                            <MainCard
-                                sx={mainCardSx}
-                                border={false}
-                                elevation={16}
-                                content={false}
-                                boxShadow
-                                shadow={theme.shadows[16]}
-                            >
-                                <Box sx={{p: 2, pt: 0}}>
-                                    <List component="nav" sx={listStyles}>
-                                        <PopperListItem
-                                            onClick={handleSettingsClick}
-                                            itemLabel={'Find House'}
-                                            icon={SearchIcon}
-                                        />
-                                        <PopperListItem
-                                            onClick={handlePrivacyNoticeClick}
-                                            itemLabel={'Upload a Property'}
-                                            icon={UploadIcon}
-                                        />
-                                        <PopperListItem
-                                            onClick={handlePrivacyNoticeClick}
-                                            itemLabel={'Help'}
-                                            icon={HelpIcon}
-                                        />
-                                        <Divider sx={{my: 1}}/>
-                                    </List>
-                                </Box>
-                            </MainCard>
-                        )}
-                    </Paper>
-                </ClickAwayListener>
-            </Popper>
-        </>
+        <Popper
+            placement="bottom-end"
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            disablePortal
+            modifiers={popperModifiers}
+            sx={{zIndex: (t) => t.zIndex.drawer + 2}}
+        >
+            <ClickAwayListener onClickAway={handleClose}>
+                <Paper
+                    elevation={8}
+                    sx={{
+                        width: 280,
+                        borderRadius: 3,
+                        border: `1px solid ${theme.palette.divider}`,
+                        overflow: "hidden",
+                        bgcolor: theme.palette.background.paper,
+                        py: 1
+                    }}
+                >
+                    <SectionLabel label="Browse"/>
+                    <MenuItem
+                        icon={<IconSearch size={18}/>}
+                        label="Find a Property"
+                        description="Search all available listings"
+                        color="#3fb129"
+                        onClick={() => go("/")}
+                    />
+
+                    <Divider sx={{my: 1, mx: 1.5}}/>
+
+                    <SectionLabel label="Manage"/>
+                    <MenuItem
+                        icon={<IconUpload size={18}/>}
+                        label="Upload a Property"
+                        description="Create a new listing"
+                        color="#1976d2"
+                        onClick={() => go("/new-listing")}
+                    />
+
+                    <Divider sx={{my: 1, mx: 1.5}}/>
+
+                    <SectionLabel label="Support"/>
+                    <MenuItem
+                        icon={<IconHelp size={18}/>}
+                        label="Help"
+                        description="FAQs and contact support"
+                        onClick={() => setOpen(false)}
+                    />
+                </Paper>
+            </ClickAwayListener>
+        </Popper>
     );
 };
 

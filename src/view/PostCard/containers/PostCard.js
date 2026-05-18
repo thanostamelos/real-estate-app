@@ -3,23 +3,16 @@ import {alpha, useTheme} from "@mui/material/styles";
 import ImageSection from "../components/ImageSection";
 import InfoSection from "../components/InfoSection";
 
-const PostCard = ({
-                      images = [],
-                      title,
-                      price,
-                      location,
-                      area,
-                      rooms,
-                      description,
-                      phone,
-                      email
-                  }) => {
+const PostCard = ({listing, onClick}) => {
     const theme = useTheme();
     const accent = "#3fb129";
+
+    const {property, owner, rating, views, datePosted} = listing;
 
     return (
         <Paper
             elevation={0}
+            onClick={onClick}
             sx={{
                 width: 320,
                 borderRadius: 4,
@@ -33,17 +26,12 @@ const PostCard = ({
                 }
             }}
         >
-
-            <ImageSection accent={accent} images={images} price={price}/>
-
+            <ImageSection accent={accent} property={property} rating={rating}/>
             <InfoSection
-                title={title}
-                area={area}
-                description={description}
-                email={email}
-                location={location}
-                phone={phone}
-                rooms={rooms}
+                property={property}
+                owner={owner}
+                views={views}
+                datePosted={datePosted}
             />
         </Paper>
     );
