@@ -3,6 +3,7 @@ import {useTheme} from '@mui/material/styles';
 import {Box, ClickAwayListener, Divider, Paper, Popper, Typography} from '@mui/material';
 import {IconHelp, IconSearch, IconUpload} from '@tabler/icons-react';
 import {useNavigate} from 'react-router-dom';
+import MainCard from "../../../utils/general/MainCard";
 
 const popperModifiers = [
     {name: 'offset', options: {offset: [0, 8]}}
@@ -52,65 +53,61 @@ const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
         setOpen(false);
     }, [anchorRef, setOpen]);
 
-    const go = (path) => {
+    const handleSettingsClick = useCallback(() => {
         setOpen(false);
-        navigate(path);
-    };
+    }, [setOpen]);
+
+    const handlePrivacyNoticeClick = useCallback(() => {
+    }, []);
 
     return (
-        <Popper
-            placement="bottom-end"
-            open={open}
-            anchorEl={anchorRef.current}
-            role={undefined}
-            disablePortal
-            modifiers={popperModifiers}
-            sx={{zIndex: (t) => t.zIndex.drawer + 2}}
-        >
-            <ClickAwayListener onClickAway={handleClose}>
-                <Paper
-                    elevation={8}
-                    sx={{
-                        width: 280,
-                        borderRadius: 3,
-                        border: `1px solid ${theme.palette.divider}`,
-                        overflow: "hidden",
-                        bgcolor: theme.palette.background.paper,
-                        py: 1
-                    }}
-                >
-                    <SectionLabel label="Browse"/>
-                    <MenuItem
-                        icon={<IconSearch size={18}/>}
-                        label="Find a Property"
-                        description="Search all available listings"
-                        color="#3fb129"
-                        onClick={() => go("/")}
-                    />
-
-                    <Divider sx={{my: 1, mx: 1.5}}/>
-
-                    <SectionLabel label="Manage"/>
-                    <MenuItem
-                        icon={<IconUpload size={18}/>}
-                        label="Upload a Property"
-                        description="Create a new listing"
-                        color="#1976d2"
-                        onClick={() => go("/new-listing")}
-                    />
-
-                    <Divider sx={{my: 1, mx: 1.5}}/>
-
-                    <SectionLabel label="Support"/>
-                    <MenuItem
-                        icon={<IconHelp size={18}/>}
-                        label="Help"
-                        description="FAQs and contact support"
-                        onClick={() => setOpen(false)}
-                    />
-                </Paper>
-            </ClickAwayListener>
-        </Popper>
+        <>
+            <Popper
+                placement="bottom-end"
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                disablePortal
+                modifiers={popperModifiers}
+                sx={{zIndex: (t) => t.zIndex.drawer + 2}}
+            >
+                <ClickAwayListener onClickAway={handleClose}>
+                    <Paper>
+                        {open && (
+                            <MainCard
+                                sx={mainCardSx}
+                                border={false}
+                                elevation={16}
+                                content={false}
+                                boxShadow
+                                shadow={theme.shadows[16]}
+                            >
+                                <Box sx={{p: 2, pt: 0}}>
+                                    <List component="nav" sx={listStyles}>
+                                        <PopperListItem
+                                            onClick={handleSettingsClick}
+                                            itemLabel={'Find House'}
+                                            icon={SearchIcon}
+                                        />
+                                        <PopperListItem
+                                            onClick={handlePrivacyNoticeClick}
+                                            itemLabel={'Upload a Property'}
+                                            icon={UploadIcon}
+                                        />
+                                        <PopperListItem
+                                            onClick={handlePrivacyNoticeClick}
+                                            itemLabel={'Help'}
+                                            icon={HelpIcon}
+                                        />
+                                        <Divider sx={{my: 1}}/>
+                                    </List>
+                                </Box>
+                            </MainCard>
+                        )}
+                    </Paper>
+                </ClickAwayListener>
+            </Popper>
+        </>
     );
 };
 

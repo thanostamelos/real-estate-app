@@ -1,6 +1,7 @@
 import {Navigate, Route, Routes} from "react-router-dom";
 import Home from "../../view/Home/containers/Home";
 import NewListing from "../../view/NewListing/NewListing";
+import Profile from "../../view/Profile/components/Profile";
 
 const ApplicationRoutes = () => {
     return (
@@ -9,6 +10,8 @@ const ApplicationRoutes = () => {
             <Route path="/new-listing" element={<NewListing/>}/>
             <Route path="/login"/>
             <Route path="/signup"/>
+            <Route path="/profile" element={<Profile/>}/>
+
             <Route path="*" element={<Navigate to="/" replace/>}/>
         </Routes>
     );
