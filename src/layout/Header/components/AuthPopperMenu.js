@@ -1,9 +1,10 @@
 import {useCallback, useMemo, useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import {Box, ClickAwayListener, List, Paper, Popper} from '@mui/material';
-import {IconLogin, IconLogout} from '@tabler/icons-react';
+import {IconLogin, IconLogout, IconUser} from '@tabler/icons-react';
 import PopperListItem from "./PopperListItem";
 import MainCard from "../../../utils/general/MainCard";
+import {useNavigate} from "react-router-dom";
 
 const popperModifiers = [
     {
@@ -19,6 +20,7 @@ const LogoutIcon = <IconLogout/>;
 
 const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
     const [authState, setAuthState] = useState('login')
 
@@ -64,6 +66,11 @@ const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
         setOpen(false);
     }, [setOpen]);
 
+    const handleRedirectUserProfile = useCallback(() => {
+        navigate('/profile')
+        setOpen(false);
+    }, [setOpen,navigate ]);
+
     return (
         <>
             <Popper
@@ -88,6 +95,11 @@ const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
                             >
                                 <Box sx={{p: 2, pt: 0}}>
                                     <List component="nav" sx={listStyles}>
+                                        <PopperListItem
+                                            onClick={handleRedirectUserProfile}
+                                            itemLabel={'User Profile'}
+                                            icon={<IconUser/>}
+                                        />
                                         {authState === 'login' ?
                                             <PopperListItem
                                                 onClick={handleLogout}

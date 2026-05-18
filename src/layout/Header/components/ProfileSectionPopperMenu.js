@@ -1,61 +1,69 @@
-import {memo, useCallback} from 'react';
+import {memo, useCallback, useMemo} from 'react';
 import {useTheme} from '@mui/material/styles';
-import {Box, ClickAwayListener, Divider, Paper, Popper, Typography} from '@mui/material';
+import {Box, ClickAwayListener, Divider, List, Paper, Popper} from '@mui/material';
 import {IconHelp, IconSearch, IconUpload} from '@tabler/icons-react';
-import {useNavigate} from 'react-router-dom';
+import PopperListItem from "./PopperListItem";
 import MainCard from "../../../utils/general/MainCard";
+import {useNavigate} from "react-router-dom";
 
 const popperModifiers = [
-    {name: 'offset', options: {offset: [0, 8]}}
+    {
+        name: 'offset',
+        options: {
+            offset: [0, 8]
+        }
+    }
 ];
 
-const MenuItem = ({icon, label, description, onClick, color}) => {
-    const theme = useTheme();
-    return (
-        <Box
-            onClick={onClick}
-            sx={{
-                display: "flex", alignItems: "flex-start", gap: 1.5,
-                px: 1.5, py: 1.2, borderRadius: 2, cursor: "pointer",
-                transition: "background 0.15s",
-                "&:hover": {bgcolor: theme.palette.action.hover}
-            }}
-        >
-            <Box sx={{
-                mt: 0.3, p: 0.8, borderRadius: 1.5,
-                bgcolor: color ? `${color}18` : theme.palette.action.selected,
-                color: color ?? theme.palette.text.primary,
-                display: "flex"
-            }}>
-                {icon}
-            </Box>
-            <Box>
-                <Typography variant="body2" fontWeight={600}>{label}</Typography>
-                <Typography variant="caption" color="text.secondary">{description}</Typography>
-            </Box>
-        </Box>
-    );
-};
-
-const SectionLabel = ({label}) => (
-    <Typography variant="caption" color="text.disabled"
-        sx={{px: 1.5, pt: 1, pb: 0.5, display: "block", letterSpacing: 0.8, textTransform: "uppercase", fontWeight: 700}}>
-        {label}
-    </Typography>
-);
+const SearchIcon = <IconSearch/>;
+const UploadIcon = <IconUpload/>;
+const HelpIcon = <IconHelp/>;
 
 const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
     const theme = useTheme();
     const navigate = useNavigate();
 
-    const handleClose = useCallback((event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) return;
-        setOpen(false);
-    }, [anchorRef, setOpen]);
+    const listStyles = useMemo(
+        () => ({
+            width: '100%',
+            maxWidth: 350,
+            minWidth: 300,
+            backgroundColor: theme.palette?.background?.default,
+            borderRadius: '10px',
+            [theme.breakpoints.down('md')]: {
+                minWidth: '100%'
+            },
+            '& .MuiListItemButton-root': {
+                mt: 0.5
+            }
+        }),
+        [theme.palette?.background?.default, theme.breakpoints]
+    );
 
-    const handleSettingsClick = useCallback(() => {
+    const mainCardSx = useMemo(
+        () => ({backgroundColor: theme.palette?.background?.default}),
+        [theme.palette?.background?.default]
+    );
+
+    const handleClose = useCallback(
+        (event) => {
+            if (anchorRef.current && anchorRef.current.contains(event.target)) {
+                return;
+            }
+            setOpen(false);
+        },
+        [anchorRef, setOpen]
+    );
+
+    const handleHome = useCallback(() => {
+        navigate('/');
         setOpen(false);
-    }, [setOpen]);
+    }, [setOpen, navigate]);
+
+    const handleUploadProperty = useCallback(() => {
+        navigate('/new-listing');
+        setOpen(false);
+    }, [setOpen, navigate]);
 
     const handlePrivacyNoticeClick = useCallback(() => {
     }, []);
@@ -85,15 +93,16 @@ const ProfileSectionPopperMenu = ({open, setOpen, anchorRef}) => {
                                 <Box sx={{p: 2, pt: 0}}>
                                     <List component="nav" sx={listStyles}>
                                         <PopperListItem
-                                            onClick={handleSettingsClick}
+                                            onClick={handleHome}
                                             itemLabel={'Find House'}
                                             icon={SearchIcon}
                                         />
                                         <PopperListItem
-                                            onClick={handlePrivacyNoticeClick}
+                                            onClick={handleUploadProperty}
                                             itemLabel={'Upload a Property'}
                                             icon={UploadIcon}
                                         />
+                                        <Divider sx={{my: 1}}/>
                                         <PopperListItem
                                             onClick={handlePrivacyNoticeClick}
                                             itemLabel={'Help'}
