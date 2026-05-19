@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {
     Box,
+    Button,
     Chip,
     Dialog,
     DialogContent,
@@ -20,8 +21,10 @@ import HomeIcon from "@mui/icons-material/Home";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import StarIcon from "@mui/icons-material/Star";
+import ChatIcon from "@mui/icons-material/Chat";
 import {useDispatch} from "react-redux";
 import {rateListing} from "../../store/slices/data_listings";
+import ChatDialog from "../Chat/ChatDialog";
 
 const STATUS_LABEL = {sale: "FOR SALE", rent: "FOR RENT"};
 const STATUS_COLOR = {sale: "#e53935", rent: "#3fb129"};
@@ -30,6 +33,7 @@ const ListingModal = ({listing, onClose}) => {
     const dispatch = useDispatch();
     const [imgIndex, setImgIndex] = useState(0);
     const [userRating, setUserRating] = useState(listing.rating ?? 0);
+    const [chatOpen, setChatOpen] = useState(false);
 
     const {property, owner, views, datePosted, listingId} = listing;
     const images = property.images ?? [];
@@ -55,6 +59,7 @@ const ListingModal = ({listing, onClose}) => {
         : `€${property.price.toLocaleString()}`;
 
     return (
+    <>
         <Dialog
             open
             onClose={onClose}
@@ -209,6 +214,17 @@ const ListingModal = ({listing, onClose}) => {
                                 <Typography variant="body2">{owner.email}</Typography>
                             </Box>
                         </Box>
+
+                        {/* contactOwner() - Use Case 8: Επικοινωνία χρηστών */}
+                        <Button
+                            variant="contained"
+                            size="small"
+                            startIcon={<ChatIcon fontSize="small"/>}
+                            onClick={() => setChatOpen(true)}
+                            sx={{mt: 1.5, borderRadius: 2}}
+                        >
+                            Send Message to Seller
+                        </Button>
                     </Box>
 
                     {/* Rating */}
@@ -233,6 +249,14 @@ const ListingModal = ({listing, onClose}) => {
                 </Box>
             </DialogContent>
         </Dialog>
+
+        {chatOpen && (
+            <ChatDialog
+                listing={listing}
+                onClose={() => setChatOpen(false)}
+            />
+        )}
+    </>
     );
 };
 

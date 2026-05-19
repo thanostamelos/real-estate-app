@@ -1,5 +1,4 @@
-import {Box, IconButton} from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import {Box} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
 const STATUS_LABELS = {sale: "FOR SALE", rent: "FOR RENT"};
@@ -50,18 +49,6 @@ const ImageSection = ({images, accent, property, rating}) => {
             >
                 {STATUS_LABELS[status] ?? status?.toUpperCase()}
             </Box>
-
-            {/* Favorite button */}
-            <IconButton
-                sx={{
-                    position: "absolute",
-                    top: 6,
-                    right: 8,
-                    bgcolor: "rgba(255,255,255,0.85)"
-                }}
-            >
-                <FavoriteBorderIcon/>
-            </IconButton>
 
             {/* Price */}
             <Box
