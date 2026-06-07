@@ -159,17 +159,18 @@ export default function NewListing() {
             sx={{ fontSize: 72, color: 'success.main', mb: 2 }}
           />
           <Typography variant="h5" fontWeight={700} sx={{ mb: 1 }}>
-            Listing Published!
+            Listing Submitted for Approval
           </Typography>
+
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            Your listing has been added. It will disappear after a page refresh.
+            Your listing has been submitted successfully. Please wait for admin approval before it becomes visible.
           </Typography>
           <Button
             variant="contained"
             onClick={() => navigate('/')}
             sx={{ mr: 1 }}
           >
-            View Listings
+            Back to Home
           </Button>
           <Button
             variant="outlined"
@@ -450,7 +451,7 @@ export default function NewListing() {
             onClick={handleSubmit}
             sx={{ flex: 1 }}
           >
-            Publish Listing
+            Submit for Approval
           </Button>
           <Button variant="outlined" size="large" onClick={() => navigate('/')}>
             Cancel

@@ -3,6 +3,7 @@ import Home from '../../view/Home/containers/Home'
 import NewListing from '../../view/NewListing/NewListing'
 import OwnerDashboard from '../../view/Owner/containers/OwnerDashboard'
 import AgencyDashboard from '../../view/Agency/containers/AgencyDashboard'
+import AdminDashboard from '../../view/Admin/containers/AdminDashboard'
 import Profile from '../../view/Profile/components/Profile'
 
 const ApplicationRoutes = () => {
@@ -12,6 +13,7 @@ const ApplicationRoutes = () => {
       <Route path="/new-listing" element={<NewListing />} />
       <Route path="/owner-dashboard" element={<OwnerDashboard />} />
       <Route path="/agency-dashboard" element={<AgencyDashboard />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/login" />
       <Route path="/signup" />
       <Route path="/profile" element={<Profile />} />

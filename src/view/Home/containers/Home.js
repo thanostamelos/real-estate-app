@@ -42,7 +42,8 @@ export default function Home() {
         const loc = location?.toLowerCase().trim();
 
         return listings.filter((listing) => {
-            const p = listing.property;
+            if (listing.status !== 'active') return false
+            const p = listing.property;   
 
             const matchesLocation = loc ? p.location?.toLowerCase().includes(loc) : true;
             const matchesType = propertyType ? p.type === propertyType : true;

@@ -33,6 +33,7 @@ const UploadIcon = <IconUpload />
 const HelpIcon = <IconHelp />
 const OwnerIcon = <IconUser />
 const AgencyIcon = <IconBuilding />
+const AdminIcon = <IconUser />
 
 const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
   const theme = useTheme()
@@ -144,7 +145,7 @@ const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
                     <PopperListItem
                       onClick={handleAdminDashboard}
                       itemLabel={'Admin Dashboard'}
-                      icon={AgencyIcon}
+                      icon={AdminIcon}
                     />
                     <Divider sx={{ my: 1 }} />
                     <PopperListItem

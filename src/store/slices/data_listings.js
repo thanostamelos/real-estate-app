@@ -14,7 +14,7 @@ const data_listings = createSlice({
       state.listings.unshift({
         listingId: nextId++,
         datePosted: new Date().toISOString().split('T')[0],
-        status: 'active',
+        status: 'pending', 
         views: 0,
         rating: 0,
         property: payload.property,
@@ -35,6 +35,25 @@ const data_listings = createSlice({
         }
       }
     },
+    approveListing(state, action) {
+      const listing = state.listings.find(
+        (l) => l.listingId === action.payload,
+      )
+
+      if (listing) {
+        listing.status = 'active'
+      }
+    },
+
+    rejectListing(state, action) {
+      const listing = state.listings.find(
+        (l) => l.listingId === action.payload,
+      )
+
+      if (listing) {
+        listing.status = 'inactive'
+      }
+    },
     deleteListing(state, action) {
       state.listings = state.listings.filter(
         (listing) => listing.listingId !== action.payload,
@@ -49,6 +68,10 @@ const data_listings = createSlice({
 })
 
 export default data_listings.reducer
-export const { addListing, updateListing, deleteListing, rateListing } =
+export const { addListing, updateListing, deleteListing, rateListing, approveListing, rejectListing, } =
   data_listings.actions
 export const selectListings = (state) => state.data_listings.listings
+export const selectPendingListings = (state) =>
+  state.data_listings.listings.filter(
+    (listing) => listing.status === 'pending',
+  )
