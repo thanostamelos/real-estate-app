@@ -90,6 +90,11 @@ const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
     setOpen(false)
   }, [setOpen, navigate])
 
+    const handleAdminDashboard = useCallback(() => {
+    navigate('/admin-dashboard')
+    setOpen(false)
+  }, [setOpen, navigate])
+
   const handlePrivacyNoticeClick = useCallback(() => {}, [])
 
   return (
@@ -134,6 +139,11 @@ const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
                     <PopperListItem
                       onClick={handleAgencyDashboard}
                       itemLabel={'Agency Dashboard'}
+                      icon={AgencyIcon}
+                    />
+                    <PopperListItem
+                      onClick={handleAdminDashboard}
+                      itemLabel={'Admin Dashboard'}
                       icon={AgencyIcon}
                     />
                     <Divider sx={{ my: 1 }} />
