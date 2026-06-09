@@ -11,6 +11,7 @@ import {
 import {
   approveListing,
   rejectListing,
+  deleteListing,
   selectPendingListings,
 } from '../../../store/slices/data_listings'
 
@@ -63,6 +64,18 @@ export default function PendingListings() {
                 onClick={() => dispatch(rejectListing(listing.listingId))}
               >
                 Reject
+              </Button>
+
+              <Button
+                variant="text"
+                color="error"
+                onClick={() => {
+                  if (window.confirm('Delete this listing permanently? This cannot be undone.')) {
+                    dispatch(deleteListing(listing.listingId))
+                  }
+                }}
+              >
+                Delete
               </Button>
             </CardActions>
           </Card>

@@ -4,10 +4,13 @@ import {
     Button,
     Chip,
     Dialog,
+    DialogActions,
     DialogContent,
+    DialogTitle,
     Divider,
     IconButton,
     Rating,
+    TextField,
     Tooltip,
     Typography
 } from "@mui/material";
@@ -22,8 +25,9 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import StarIcon from "@mui/icons-material/Star";
 import ChatIcon from "@mui/icons-material/Chat";
+import FlagIcon from "@mui/icons-material/Flag";
 import {useDispatch} from "react-redux";
-import {rateListing} from "../../store/slices/data_listings";
+import {rateListing, reportListing} from "../../store/slices/data_listings";
 import ChatDialog from "../Chat/ChatDialog";
 
 const STATUS_LABEL = {sale: "FOR SALE", rent: "FOR RENT"};
@@ -34,6 +38,9 @@ const ListingModal = ({listing, onClose}) => {
     const [imgIndex, setImgIndex] = useState(0);
     const [userRating, setUserRating] = useState(listing.rating ?? 0);
     const [chatOpen, setChatOpen] = useState(false);
+    const [reportOpen, setReportOpen] = useState(false);
+    const [reportReason, setReportReason] = useState('');
+    const [reportDone, setReportDone] = useState(listing.reported ?? false);
 
     const {property, owner, views, datePosted, listingId} = listing;
     const images = property.images ?? [];
@@ -52,6 +59,14 @@ const ListingModal = ({listing, onClose}) => {
         if (!value) return;
         setUserRating(value);
         dispatch(rateListing({listingId, rating: value}));
+    };
+
+    const handleReportSubmit = () => {
+        if (!reportReason.trim()) return;
+        dispatch(reportListing({listingId, reason: reportReason}));
+        setReportDone(true);
+        setReportOpen(false);
+        setReportReason('');
     };
 
     const priceLabel = property.status === "rent"
@@ -247,7 +262,55 @@ const ListingModal = ({listing, onClose}) => {
                         </Typography>
                     </Box>
                 </Box>
+
+                {/* Report Listing - UC reportListing() */}
+                <Box sx={{mt: 2, pt: 2, borderTop: "1px solid", borderColor: "divider", display: "flex", justifyContent: "flex-end"}}>
+                    {reportDone ? (
+                        <Typography variant="caption" color="warning.main" sx={{display: "flex", alignItems: "center", gap: 0.5}}>
+                            <FlagIcon fontSize="small"/> This listing has been reported.
+                        </Typography>
+                    ) : (
+                        <Button
+                            size="small"
+                            color="warning"
+                            startIcon={<FlagIcon fontSize="small"/>}
+                            onClick={() => setReportOpen(true)}
+                        >
+                            Report Listing
+                        </Button>
+                    )}
+                </Box>
             </DialogContent>
+        </Dialog>
+
+        {/* Report Dialog */}
+        <Dialog open={reportOpen} onClose={() => setReportOpen(false)} maxWidth="sm" fullWidth>
+            <DialogTitle>Report Listing</DialogTitle>
+            <DialogContent>
+                <Typography variant="body2" color="text.secondary" sx={{mb: 2}}>
+                    Please describe why you are reporting this listing. Our team will review your report.
+                </Typography>
+                <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    label="Reason for report"
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                    placeholder="e.g. Misleading information, fraudulent listing, inappropriate content..."
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => { setReportOpen(false); setReportReason(''); }}>Cancel</Button>
+                <Button
+                    variant="contained"
+                    color="warning"
+                    onClick={handleReportSubmit}
+                    disabled={!reportReason.trim()}
+                >
+                    Submit Report
+                </Button>
+            </DialogActions>
         </Dialog>
 
         {chatOpen && (

@@ -4,13 +4,15 @@ import data_snackbar from "./slices/data_snackbar";
 import data_searchbar from "./slices/data_searchbar";
 import data_listings from "./slices/data_listings";
 import data_messages from "./slices/data_messages";
+import data_users from "./slices/data_users";
 
 export const store = configureStore({
     reducer: {
         data_snackbar,
         data_searchbar,
         data_listings,
-        data_messages
+        data_messages,
+        data_users,
     },
 });
 

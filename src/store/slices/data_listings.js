@@ -64,11 +64,19 @@ const data_listings = createSlice({
       const listing = state.listings.find((l) => l.listingId === listingId)
       if (listing) listing.rating = rating
     },
+    reportListing(state, action) {
+      const { listingId, reason } = action.payload
+      const listing = state.listings.find((l) => l.listingId === listingId)
+      if (listing) {
+        listing.reported = true
+        listing.reportReason = reason
+      }
+    },
   },
 })
 
 export default data_listings.reducer
-export const { addListing, updateListing, deleteListing, rateListing, approveListing, rejectListing, } =
+export const { addListing, updateListing, deleteListing, rateListing, approveListing, rejectListing, reportListing } =
   data_listings.actions
 export const selectListings = (state) => state.data_listings.listings
 export const selectPendingListings = (state) =>
