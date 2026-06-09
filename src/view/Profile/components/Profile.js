@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Grid,
@@ -18,6 +18,8 @@ import {
     InputLabel
 } from '@mui/material';
 import { Visibility, VisibilityOff, PhotoCamera } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../store/slices/data_auth';
 import MainCard from '../../../utils/general/MainCard';
 import CustomTabs from '../../../utils/general/CustomTabs';
 
@@ -30,19 +32,33 @@ const TAB_ITEMS = [
 const Profile = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [showPassword, setShowPassword] = useState(false);
+    
+    const currentUser = useSelector(selectCurrentUser);
 
     const [userInfo, setUserInfo] = useState({
         role: 'Customer', // 'Customer', 'Owner', 'Agency'
-        firstName: 'John',
-        lastName: 'Doe',
+        firstName: '',
+        lastName: '',
         agencyName: '',
         licenseNumber: '',
-        email: 'john.doe@example.com',
-        phone: '+1 234 567 8900',
-        address: '123 Real Estate Blvd, Suite 100',
-        city: 'New York',
-        country: 'USA'
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        country: ''
     });
+
+    useEffect(() => {
+        if (currentUser) {
+            setUserInfo(prev => ({
+                ...prev,
+                role: currentUser.role || 'Customer',
+                email: currentUser.email || '',
+                firstName: currentUser.username || '',
+                lastName: '', // Assuming username is single word for mock
+            }));
+        }
+    }, [currentUser]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

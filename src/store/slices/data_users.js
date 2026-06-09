@@ -9,6 +9,7 @@ const MOCK_USERS = [
   { userId: 6, username: 'sofia_customer', email: 'sofia@gmail.com', phone: '6967890123', role: 'Customer', status: 'active' },
   { userId: 7, username: 'giorgos_owner', email: 'giorgos@example.com', phone: '6978901234', role: 'Owner', status: 'active' },
   { userId: 8, username: 'anna_customer', email: 'anna@hotmail.com', phone: '6989012345', role: 'Customer', status: 'inactive' },
+  { userId: 9, username: 'admin', email: 'admin@realestate.gr', phone: '6900000000', role: 'Admin', status: 'active' },
 ]
 
 let nextUserId = MOCK_USERS.length + 1

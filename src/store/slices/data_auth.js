@@ -3,8 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 const data_auth = createSlice({
   name: 'data_auth',
   initialState: {
-    isAuthenticated: false,
-    user: null,
+    isAuthenticated: true,
+    user: {
+      username: 'admin',
+      email: 'admin@realestate.gr',
+      role: 'Admin',
+    },
   },
   reducers: {
     loginUser(state, action) {

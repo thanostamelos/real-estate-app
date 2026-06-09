@@ -18,6 +18,8 @@ import {
 import PopperListItem from './PopperListItem'
 import MainCard from '../../../utils/general/MainCard'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectCurrentUser } from '../../../store/slices/data_auth'
 
 const popperModifiers = [
   {
@@ -38,6 +40,8 @@ const AdminIcon = <IconUser />
 const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
   const theme = useTheme()
   const navigate = useNavigate()
+  const user = useSelector(selectCurrentUser)
+  const role = user?.role
 
   const listStyles = useMemo(
     () => ({
@@ -91,7 +95,7 @@ const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
     setOpen(false)
   }, [setOpen, navigate])
 
-    const handleAdminDashboard = useCallback(() => {
+  const handleAdminDashboard = useCallback(() => {
     navigate('/admin-dashboard')
     setOpen(false)
   }, [setOpen, navigate])
@@ -127,26 +131,34 @@ const ProfileSectionPopperMenu = ({ open, setOpen, anchorRef }) => {
                       itemLabel={'Find House'}
                       icon={SearchIcon}
                     />
-                    <PopperListItem
-                      onClick={handleUploadProperty}
-                      itemLabel={'Upload a Property'}
-                      icon={UploadIcon}
-                    />
-                    <PopperListItem
-                      onClick={handleOwnerDashboard}
-                      itemLabel={'Owner Dashboard'}
-                      icon={OwnerIcon}
-                    />
-                    <PopperListItem
-                      onClick={handleAgencyDashboard}
-                      itemLabel={'Agency Dashboard'}
-                      icon={AgencyIcon}
-                    />
-                    <PopperListItem
-                      onClick={handleAdminDashboard}
-                      itemLabel={'Admin Dashboard'}
-                      icon={AdminIcon}
-                    />
+                    {['Owner', 'Agency'].includes(role) && (
+                      <PopperListItem
+                        onClick={handleUploadProperty}
+                        itemLabel={'Upload a Property'}
+                        icon={UploadIcon}
+                      />
+                    )}
+                    {role === 'Owner' && (
+                      <PopperListItem
+                        onClick={handleOwnerDashboard}
+                        itemLabel={'Owner Dashboard'}
+                        icon={OwnerIcon}
+                      />
+                    )}
+                    {role === 'Agency' && (
+                      <PopperListItem
+                        onClick={handleAgencyDashboard}
+                        itemLabel={'Agency Dashboard'}
+                        icon={AgencyIcon}
+                      />
+                    )}
+                    {role === 'Admin' && (
+                      <PopperListItem
+                        onClick={handleAdminDashboard}
+                        itemLabel={'Admin Dashboard'}
+                        icon={AdminIcon}
+                      />
+                    )}
                     <Divider sx={{ my: 1 }} />
                     <PopperListItem
                       onClick={handlePrivacyNoticeClick}
