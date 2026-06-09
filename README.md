@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Real Estate App UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend UI for the Real Estate Application, built using React and Material-UI (MUI).
+
+## Features
+
+- **Role-Based Access Control (RBAC):** Supports distinct user roles including `Customer`, `Owner`, `Agency`, and `Admin`.
+- **Dynamic Navigation:** The header and profile menus adapt dynamically based on the currently logged-in user's role.
+- **User Profile Management:** Users can view and edit their profile details, preferences, and security settings.
+- **Mock Authentication:** The app comes pre-configured with mock users to test different roles and capabilities without needing a backend server.
+- **State Management:** Utilizing Redux Toolkit for global state management including authentication, users, and snackbar notifications.
+
+## Technologies Used
+
+- **React:** Component-based UI library.
+- **Material-UI (MUI):** UI component framework for styling and layout.
+- **React Router (v7):** For client-side routing.
+- **Redux Toolkit:** For application state management.
+- **Formik & Yup:** For form building and validation.
+- **Tabler Icons:** For SVG icons.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher recommended)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository and navigate to the project directory:
+   ```bash
+   cd real-estate-app
+   ```
+
+2. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running the Application
+
+To start the development server:
+
+```bash
+npm start
+```
+
+The application will open in your default browser at [http://localhost:3000](http://localhost:3000).
+
+## Mock Users for Testing
+
+You can use the following mock credentials to log in and test different features of the application based on user roles:
+
+| Role | Username | Email | Password |
+| :--- | :--- | :--- | :--- |
+| **Admin** | admin | `admin@realestate.gr` | `admin123` |
+| **Owner** | john_owner | `owner@realestate.gr` | `owner123` |
+| **Agency** | maria_agency | `agency@realestate.gr` | `agency123` |
+| **Customer** | nikos_customer | `customer@realestate.gr` | `customer123` |
+
+*By default, the application is set to log in the Admin user on startup for testing convenience. You can change this behavior in `src/store/slices/data_auth.js`.*
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+- `npm start`: Runs the app in development mode.
+- `npm test`: Launches the test runner in interactive watch mode.
+- `npm run build`: Builds the app for production to the `build` folder.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Structure Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `src/view/`: Contains all main view components (e.g., Home, Auth, Profile, Dashboards).
+- `src/layout/`: Global layout components like Header and Footer.
+- `src/routes/`: Client-side routing configuration and auth guards (`RequireAuth`, `RequireRole`).
+- `src/store/`: Redux slices and store configuration.
+- `src/theme/`: Material-UI theme configurations.
+- `src/utils/`: Reusable utility functions and custom hooks.
