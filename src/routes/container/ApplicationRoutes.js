@@ -5,6 +5,8 @@ import OwnerDashboard from '../../view/Owner/containers/OwnerDashboard'
 import AgencyDashboard from '../../view/Agency/containers/AgencyDashboard'
 import AdminDashboard from '../../view/Admin/containers/AdminDashboard'
 import Profile from '../../view/Profile/components/Profile'
+import Login from '../../view/Auth/Login'
+import Signup from '../../view/Auth/Signup'
 
 const ApplicationRoutes = () => {
   return (
@@ -14,8 +16,8 @@ const ApplicationRoutes = () => {
       <Route path="/owner-dashboard" element={<OwnerDashboard />} />
       <Route path="/agency-dashboard" element={<AgencyDashboard />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
-      <Route path="/login" />
-      <Route path="/signup" />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/profile" element={<Profile />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />

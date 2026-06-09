@@ -1,10 +1,13 @@
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useMemo} from 'react';
 import {useTheme} from '@mui/material/styles';
-import {Box, ClickAwayListener, List, Paper, Popper} from '@mui/material';
+import {Box, ClickAwayListener, Divider, List, Paper, Popper, Typography} from '@mui/material';
 import {IconLogin, IconLogout, IconUser} from '@tabler/icons-react';
 import PopperListItem from "./PopperListItem";
 import MainCard from "../../../utils/general/MainCard";
 import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {logoutUser, selectCurrentUser, selectIsAuthenticated} from "../../../store/slices/data_auth";
+import {openSnackbar} from "../../../store/slices/data_snackbar";
 
 const popperModifiers = [
     {
@@ -21,8 +24,10 @@ const LogoutIcon = <IconLogout/>;
 const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const [authState, setAuthState] = useState('login')
+    const isAuthenticated = useSelector(selectIsAuthenticated);
+    const currentUser = useSelector(selectCurrentUser);
 
     const listStyles = useMemo(
         () => ({
@@ -56,20 +61,22 @@ const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
         [anchorRef, setOpen]
     );
 
-    const handleLogIn = useCallback(() => {
-        setAuthState('login')
+    const handleLogin = useCallback(() => {
+        navigate('/login');
         setOpen(false);
-    }, [setOpen]);
+    }, [setOpen, navigate]);
 
     const handleLogout = useCallback(() => {
-        setAuthState('logout')
+        dispatch(logoutUser());
+        dispatch(openSnackbar({ message: 'You have been logged out.', type: 'info' }));
+        navigate('/');
         setOpen(false);
-    }, [setOpen]);
+    }, [dispatch, navigate, setOpen]);
 
     const handleRedirectUserProfile = useCallback(() => {
-        navigate('/profile')
+        navigate('/profile');
         setOpen(false);
-    }, [setOpen,navigate ]);
+    }, [setOpen, navigate]);
 
     return (
         <>
@@ -94,25 +101,38 @@ const AuthPopperMenu = ({open, setOpen, anchorRef}) => {
                                 shadow={theme.shadows[16]}
                             >
                                 <Box sx={{p: 2, pt: 0}}>
+                                    {isAuthenticated && currentUser && (
+                                        <>
+                                            <Box sx={{px: 1, py: 1.5}}>
+                                                <Typography variant="subtitle2" fontWeight={700}>
+                                                    {currentUser.username}
+                                                </Typography>
+                                                <Typography variant="caption" color="text.secondary">
+                                                    {currentUser.email} · {currentUser.role}
+                                                </Typography>
+                                            </Box>
+                                            <Divider sx={{mb: 1}}/>
+                                        </>
+                                    )}
                                     <List component="nav" sx={listStyles}>
                                         <PopperListItem
                                             onClick={handleRedirectUserProfile}
                                             itemLabel={'User Profile'}
                                             icon={<IconUser/>}
                                         />
-                                        {authState === 'login' ?
+                                        {isAuthenticated ? (
                                             <PopperListItem
                                                 onClick={handleLogout}
                                                 itemLabel={'Logout'}
                                                 icon={LogoutIcon}
                                             />
-                                            :
+                                        ) : (
                                             <PopperListItem
-                                                onClick={handleLogIn}
-                                                itemLabel={'Login'}
+                                                onClick={handleLogin}
+                                                itemLabel={'Login / Sign Up'}
                                                 icon={LoginIcon}
                                             />
-                                        }
+                                        )}
                                     </List>
                                 </Box>
                             </MainCard>
